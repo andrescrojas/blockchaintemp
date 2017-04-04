@@ -14,8 +14,7 @@ See the License for the specific language governing permissions and limitations 
 
 Contributors:
 
-Rahul Gupta  - IBM - InterConnect 2017 - rahul.gupta@us.ibm.com
-Leucir Marin - IBM - InterConnect 2017 - lmarin@us.ibm.com
+Andres Rojas  - Assist Consultores - acrojas@assist.com.co
 ******************************************************************************/
 
 package main
@@ -23,29 +22,19 @@ package main
 var samples = `
 {
 	"event": {
-		"assetID": "The ID of a managed asset. The resource focal point for a smart contract.",
-		"weight": 1200.43,
-		"system": {
-			"cpu": 24,
-			"memory": 56
-		},
-		"temperature": 72.3,
-		"speed": 1791,
-		"power": 10.23
+		"name": "Dispositivo02",		
+		"temperature": 80,
+		"humidity": 72,
+		"objectTemp": "25"
 	},
 	"initEvent": {
-		"nickname": "ELEVATOR",
-		"version": "The ID of a managed asset. The resource focal point for a smart contract."
+		"nickname": "TEMPERATURE",
+		"version": "2"
 	},
 	"state": {
-		"assetID": "The ID of a managed asset. The resource focal point for a smart contract.",
-		"weight": 1200.43,
-		"system": {
-			"cpu": 24,
-			"memory": 56
-		},
-		"temperature": 72.3,
-		"speed": 1791,
-		"power": 10.23
+		"name": "Dispositivo02",		
+		"temperature": 85,
+		"humidity": 82,
+		"objectTemp": "25"
 	}
 }`
