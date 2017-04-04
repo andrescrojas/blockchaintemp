@@ -14,8 +14,7 @@ See the License for the specific language governing permissions and limitations 
 
 Contributors:
 
-Rahul Gupta  - IBM - InterConnect 2017 - rahul.gupta@us.ibm.com
-Leucir Marin - IBM - InterConnect 2017 - lmarin@us.ibm.com
+Andres Rojas  - Assist Consultores - acrojas@assist.com.co
 ******************************************************************************/
 
 
@@ -24,48 +23,32 @@ package main
 var schemas = `{
 	"API": {
 		"createAsset": {
-			"description": "Create an asset. One argument, a JSON encoded event. AssetID is required with zero or more writable properties. Establishes an initial asset state.",
+			"description": "Create an asset. One argument, a JSON encoded event. name is required with zero or more writable properties. Establishes an initial asset state.",
 			"properties": {
 				"args": {
 					"description": "args are JSON encoded strings",
 					"items": {
-						"description": "A set of fields that constitute the writable fields in an asset's state. AssetID is mandatory along with at least one writable field. In this contract pattern, a partial state is used as an event.",
+						"description": "A set of fields that constitute the writable fields in an asset's state. name is mandatory along with at least one writable field. In this contract pattern, a partial state is used as an event.",
 						"properties": {
-							"assetID": {
+							"name": {
 								"description": "The ID of a managed asset. The resource focal point for a smart contract.",
 								"type": "string"
-							},
-							"weight": {
-								"description": "Weight of the Asset in Lb",
-								"type": "number"
-							},
-							"system": {
-								"description": "Properties of micro computer installed in the elevator",
-								"properties": {
-									"cpu": {
-										"type": "number"
-									},
-									"memory": {
-										"type": "number"
-									}
-								},
-								"type": "object"
-							},
+							},							
 							"temperature": {
-								"description": "Temperature of the asset in Fahrenheit.",
+								"description": "Temperature of the asset in Fahrenheit.",								
 								"type": "number"
 							},
-							"speed": {
-								"description": "Speed of the asset in feet/minute.",
+							"humidity": {
+								"description": "Humidity of the asset.",
 								"type": "number"
 							},
-							"power": {
-								"description": "Power consumption by the asset in KwH.",
+							"objectTemp": {
+								"description": "Temperature of the object",
 								"type": "number"
 							}
 						},
 						"required": [
-							"assetID"
+							"name"
 						],
 						"type": "object"
 					},
@@ -85,14 +68,14 @@ var schemas = `{
 			"type": "object"
 		},
 		"deleteAsset": {
-			"description": "Delete an asset. Argument is a JSON encoded string containing only an assetID.",
+			"description": "Delete an asset. Argument is a JSON encoded string containing only an name.",
 			"properties": {
 				"args": {
 					"description": "args are JSON encoded strings",
 					"items": {
-						"description": "An object containing only an assetID for use as an argument to read or delete.",
+						"description": "An object containing only an name for use as an argument to read or delete.",
 						"properties": {
-							"assetID": {
+							"name": {
 								"description": "The ID of a managed asset. The resource focal point for a smart contract.",
 								"type": "string"
 							}
@@ -123,7 +106,7 @@ var schemas = `{
 						"description": "event sent to init on deployment",
 						"properties": {
 							"nickname": {
-								"default": "ELEVATOR",
+								"default": "TEMPERATURE",
 								"description": "The nickname of the current contract",
 								"type": "string"
 							},
@@ -153,14 +136,14 @@ var schemas = `{
 			"type": "object"
 		},
 		"readAsset": {
-			"description": "Returns the state an asset. Argument is a JSON encoded string. AssetID is the only accepted property.",
+			"description": "Returns the state an asset. Argument is a JSON encoded string. name is the only accepted property.",
 			"properties": {
 				"args": {
 					"description": "args are JSON encoded strings",
 					"items": {
-						"description": "An object containing only an assetID for use as an argument to read or delete.",
+						"description": "An object containing only an name for use as an argument to read or delete.",
 						"properties": {
-							"assetID": {
+							"name": {
 								"description": "The ID of a managed asset. The resource focal point for a smart contract.",
 								"type": "string"
 							}
@@ -182,36 +165,20 @@ var schemas = `{
 				"result": {
 					"description": "A set of fields that constitute the complete asset state.",
 					"properties": {
-						"assetID": {
+						"name": {
 							"description": "The ID of a managed asset. The resource focal point for a smart contract.",
 							"type": "string"
-						},
-						"weight": {
-							"description": "Weight of the Asset in Lb",
-							"type": "number"
-						},
-						"system": {
-							"description": "Properties of micro computer installed in the elevator",
-							"properties": {
-								"cpu": {
-									"type": "number"
-								},
-								"memory": {
-									"type": "number"
-								}
-							},
-							"type": "object"
-						},
+						},							
 						"temperature": {
-							"description": "Temperature of the asset in Fahrenheit.",
+							"description": "Temperature of the asset in Fahrenheit.",								
 							"type": "number"
 						},
-						"speed": {
-							"description": "Speed of the asset in feet/minute.",
+						"humidity": {
+							"description": "Humidity of the asset.",
 							"type": "number"
 						},
-						"power": {
-							"description": "Power consumption by the asset in KwH.",
+						"objectTemp": {
+							"description": "Temperature of the object",
 							"type": "number"
 						}
 					},
@@ -271,48 +238,32 @@ var schemas = `{
 			"type": "object"
 		},
 		"updateAsset": {
-			"description": "Update the state of an asset. The one argument is a JSON encoded event. AssetID is required along with one or more writable properties. Establishes the next asset state. ",
+			"description": "Update the state of an asset. The one argument is a JSON encoded event. name is required along with one or more writable properties. Establishes the next asset state. ",
 			"properties": {
 				"args": {
 					"description": "args are JSON encoded strings",
 					"items": {
-						"description": "A set of fields that constitute the writable fields in an asset's state. AssetID is mandatory along with at least one writable field. In this contract pattern, a partial state is used as an event.",
+						"description": "A set of fields that constitute the writable fields in an asset's state. name is mandatory along with at least one writable field. In this contract pattern, a partial state is used as an event.",
 						"properties": {
-							"assetID": {
+							"name": {
 								"description": "The ID of a managed asset. The resource focal point for a smart contract.",
 								"type": "string"
-							},
-							"weight": {
-								"description": "Weight of the Asset in Lb",
-								"type": "number"
-							},
-							"system": {
-								"description": "Properties of micro computer installed in the elevator",
-								"properties": {
-									"cpu": {
-										"type": "number"
-									},
-									"memory": {
-										"type": "number"
-									}
-								},
-								"type": "object"
-							},
+							},							
 							"temperature": {
-								"description": "Temperature of the asset in Fahrenheit.",
+								"description": "Temperature of the asset in Fahrenheit.",								
 								"type": "number"
 							},
-							"speed": {
-								"description": "Speed of the asset in feet/minute.",
+							"humidity": {
+								"description": "Humidity of the asset.",
 								"type": "number"
 							},
-							"power": {
-								"description": "Power consumption by the asset in KwH.",
+							"objectTemp": {
+								"description": "Temperature of the object",
 								"type": "number"
 							}
 						},
 						"required": [
-							"assetID"
+							"name"
 						],
 						"type": "object"
 					},
@@ -333,10 +284,10 @@ var schemas = `{
 		}
 	},
 	"objectModelSchemas": {
-		"assetIDKey": {
-			"description": "An object containing only an assetID for use as an argument to read or delete.",
+		"deviceIDKey": {
+			"description": "An object containing only an name for use as an argument to read or delete.",
 			"properties": {
-				"assetID": {
+				"name": {
 					"description": "The ID of a managed asset. The resource focal point for a smart contract.",
 					"type": "string"
 				}
@@ -344,43 +295,27 @@ var schemas = `{
 			"type": "object"
 		},
 		"event": {
-			"description": "A set of fields that constitute the writable fields in an asset's state. AssetID is mandatory along with at least one writable field. In this contract pattern, a partial state is used as an event.",
+			"description": "A set of fields that constitute the writable fields in an asset's state. name is mandatory along with at least one writable field. In this contract pattern, a partial state is used as an event.",
 			"properties": {
-				"assetID": {
+				"name": {
 					"description": "The ID of a managed asset. The resource focal point for a smart contract.",
 					"type": "string"
-				},
-				"weight": {
-					"description": "Weight of the Asset in Lb",
-					"type": "number"
-				},
-				"system": {
-					"description": "Properties of micro computer installed in the elevator",
-					"properties": {
-						"cpu": {
-							"type": "number"
-						},
-						"memory": {
-							"type": "number"
-						}
-					},
-					"type": "object"
-				},
+				},							
 				"temperature": {
-					"description": "Temperature of the asset in Fahrenheit.",
+					"description": "Temperature of the asset in Fahrenheit.",								
 					"type": "number"
 				},
-				"speed": {
-					"description": "Speed of the asset in feet/minute.",
+				"humidity": {
+					"description": "Humidity of the asset.",
 					"type": "number"
 				},
-				"power": {
-					"description": "Power consumption by the asset in KwH.",
+				"objectTemp": {
+					"description": "Temperature of the object",
 					"type": "number"
 				}
 			},
 			"required": [
-				"assetID"
+				"name"
 			],
 			"type": "object"
 		},
@@ -388,7 +323,7 @@ var schemas = `{
 			"description": "event sent to init on deployment",
 			"properties": {
 				"nickname": {
-					"default": "ELEVATOR",
+					"default": "TEMPERATURE",
 					"description": "The nickname of the current contract",
 					"type": "string"
 				},
@@ -405,36 +340,20 @@ var schemas = `{
 		"state": {
 			"description": "A set of fields that constitute the complete asset state.",
 			"properties": {
-				"assetID": {
+				"name": {
 					"description": "The ID of a managed asset. The resource focal point for a smart contract.",
 					"type": "string"
-				},
-				"weight": {
-					"description": "Weight of the Asset in Lb",
-					"type": "number"
-				},
-				"system": {
-					"description": "Properties of micro computer installed in the elevator",
-					"properties": {
-						"cpu": {
-							"type": "number"
-						},
-						"memory": {
-							"type": "number"
-						}
-					},
-					"type": "object"
-				},
+				},							
 				"temperature": {
-					"description": "Temperature of the asset in Fahrenheit.",
+					"description": "Temperature of the asset in Fahrenheit.",								
 					"type": "number"
 				},
-				"speed": {
-					"description": "Speed of the asset in feet/minute.",
+				"humidity": {
+					"description": "Humidity of the asset.",
 					"type": "number"
 				},
-				"power": {
-					"description": "Power consumption by the asset in KwH.",
+				"objectTemp": {
+					"description": "Temperature of the object",
 					"type": "number"
 				}
 			},
