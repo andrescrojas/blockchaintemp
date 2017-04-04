@@ -54,10 +54,10 @@ type ContractState struct {
 }
 
 type AssetState struct {
-    DeviceID        *string       `json:"deviceID,omitempty"`        // all assets must have an ID, primary key of contract
-	ObjectTemp     *string       `json:"objectTemp,omitempty"`       // asset objectTemp 
+    Name        *string          `json:"name,omitempty"`             // all assets must have an ID, primary key of contract	
     Temperature    *float64      `json:"temperature,omitempty"`      // asset temperature
     Humidity       *float64      `json:"humidity,omitempty"`         // asset humidity
+	ObjectTemp     *float64      `json:"objectTemp,omitempty"`       // asset objectTemp 
 }
 
 var contractState = ContractState{MYVERSION}
@@ -99,7 +99,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
     // Handle different functions
     if function == "createAsset" {
-        // create deviceID
+        // create name
         return t.createAsset(stub, args)
     } else if function == "updateAsset" {
         // create assetID
@@ -163,7 +163,7 @@ func (t *SimpleChaincode) updateAsset(stub shim.ChaincodeStubInterface, args []s
 //******************** deleteAsset ********************/
 
 func (t *SimpleChaincode) deleteAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-    var deviceID string // device ID
+    var name string // device ID
     var err error
     var stateIn AssetState
 
@@ -172,9 +172,9 @@ func (t *SimpleChaincode) deleteAsset(stub shim.ChaincodeStubInterface, args []s
     if err != nil {
         return nil, err
     }
-    deviceID = *stateIn.DeviceID
+    name = *stateIn.Name
     // Delete the key / asset from the ledger
-    err = stub.DelState(deviceID)
+    err = stub.DelState(name)
     if err != nil {
         err = errors.New("DELSTATE failed! : " + fmt.Sprint(err))
         return nil, err
@@ -187,7 +187,7 @@ func (t *SimpleChaincode) deleteAsset(stub shim.ChaincodeStubInterface, args []s
 //********************readAsset********************/
 
 func (t *SimpleChaincode) readAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-    var deviceID string // device ID
+    var name string // device ID
     var err error
     var state AssetState
 
@@ -196,9 +196,9 @@ func (t *SimpleChaincode) readAsset(stub shim.ChaincodeStubInterface, args []str
     if err != nil {
         return nil, errors.New("Asset does not exist!")
     }
-    deviceID = *stateIn.DeviceID
+    name = *stateIn.Name
     // Get the state from the ledger
-    assetBytes, err := stub.GetState(deviceID)
+    assetBytes, err := stub.GetState(name)
     if err != nil || len(assetBytes) == 0 {
         err = errors.New("Unable to get asset state from ledger")
         return nil, err
@@ -240,15 +240,15 @@ func (t *SimpleChaincode) readAssetSchemas(stub shim.ChaincodeStubInterface, arg
 // validate input data : common method called by the CRUD functions
 // ************************************
 func (t *SimpleChaincode) validateInput(args []string) (stateIn AssetState, err error) {
-    var deviceID string                  // asset ID
+    var name string                  // asset ID
     var state = AssetState{} // The calling function is expecting an object of type AssetState
 
     if len(args) != 1 {
-        err = errors.New("Incorrect number of arguments. Expecting a JSON strings with mandatory deviceID")
+        err = errors.New("Incorrect number of arguments. Expecting a JSON strings with mandatory name")
         return state, err
     }
     jsonData := args[0]
-    deviceID = ""
+    name = ""
     stateJSON := []byte(jsonData)
     err = json.Unmarshal(stateJSON, &stateIn)
     if err != nil {
@@ -256,14 +256,14 @@ func (t *SimpleChaincode) validateInput(args []string) (stateIn AssetState, err 
         return state, err
         // state is an empty instance of asset state
     }
-    // was deviceID present?
+    // was name present?
     // The nil check is required because the asset id is a pointer.
     // If no value comes in from the json input string, the values are set to nil
 
-    if stateIn.DeviceID != nil {
-        deviceID = strings.TrimSpace(*stateIn.DeviceID)
-        if deviceID == "" {
-            err = errors.New("DeviceID not passed")
+    if stateIn.Name != nil {
+        name = strings.TrimSpace(*stateIn.Name)
+        if name == "" {
+            err = errors.New("Name not passed")
             return state, err
         }
     } else {
@@ -271,14 +271,14 @@ func (t *SimpleChaincode) validateInput(args []string) (stateIn AssetState, err 
         return state, err
     }
 
-    stateIn.DeviceID = &deviceID
+    stateIn.Name = &name
     return stateIn, nil
 }
 
 //******************** createOrUpdateAsset ********************/
 
 func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-    var deviceID string // asset ID                    // used when looking in map
+    var name string // asset ID                    // used when looking in map
     var err error
     var stateIn AssetState
     var stateStub AssetState
@@ -289,10 +289,10 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
     if err != nil {
         return nil, err
     }
-    deviceID = *stateIn.DeviceID
+    name = *stateIn.Name
     // Partial updates introduced here
     // Check if asset record existed in stub
-    assetBytes, err := stub.GetState(deviceID)
+    assetBytes, err := stub.GetState(name)
     if err != nil || len(assetBytes) == 0 {
         // This implies that this is a 'create' scenario
         stateStub = stateIn // The record that goes into the stub is the one that cme in
@@ -318,7 +318,7 @@ func (t *SimpleChaincode) createOrUpdateAsset(stub shim.ChaincodeStubInterface, 
     // Get existing state from the stub
 
     // Write the new state to the ledger
-    err = stub.PutState(deviceID, stateJSON)
+    err = stub.PutState(name, stateJSON)
     if err != nil {
         err = errors.New("PUT ledger state failed: " + fmt.Sprint(err))
         return nil, err
