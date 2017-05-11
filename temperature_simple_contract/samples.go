@@ -24,7 +24,7 @@ var samples = `
 	"event": {
 		"name": "Dispositivo02",		
 		"temperature": 80,
-		"humidity": 72,
+		"hora": "Wed May 10 00:12:14 2017",
 		"objectTemp": "25"
 	},
 	"initEvent": {
@@ -34,7 +34,7 @@ var samples = `
 	"state": {
 		"name": "Dispositivo02",		
 		"temperature": 85,
-		"humidity": 82,
+		"hora": "Wed May 10 00:12:14 2017",
 		"objectTemp": "25"
 	}
 }`
