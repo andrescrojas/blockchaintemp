@@ -56,7 +56,7 @@ type ContractState struct {
 type AssetState struct {
     Name        *string          `json:"name,omitempty"`             // all assets must have an ID, primary key of contract	
     Temperature    *float64      `json:"temperature,omitempty"`      // asset temperature
-    Humidity       *float64      `json:"humidity,omitempty"`         // asset humidity
+    Hora           *string       `json:"hora,omitempty"`             // asset hora
 	ObjectTemp     *float64      `json:"objectTemp,omitempty"`       // asset objectTemp 
 }
 
