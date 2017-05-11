@@ -38,9 +38,9 @@ var schemas = `{
 								"description": "Temperature of the asset in Fahrenheit.",								
 								"type": "number"
 							},
-							"humidity": {
-								"description": "Humidity of the asset.",
-								"type": "number"
+							"hora": {
+								"description": "Datetime of the record.",
+								"type": "string"
 							},
 							"objectTemp": {
 								"description": "Temperature of the object",
@@ -173,9 +173,9 @@ var schemas = `{
 							"description": "Temperature of the asset in Fahrenheit.",								
 							"type": "number"
 						},
-						"humidity": {
-							"description": "Humidity of the asset.",
-							"type": "number"
+						"hora": {
+							"description": "Datetime of the record.",
+							"type": "string"
 						},
 						"objectTemp": {
 							"description": "Temperature of the object",
@@ -253,9 +253,9 @@ var schemas = `{
 								"description": "Temperature of the asset in Fahrenheit.",								
 								"type": "number"
 							},
-							"humidity": {
-								"description": "Humidity of the asset.",
-								"type": "number"
+							"hora": {
+								"description": "Datetime of the record.",
+								"type": "string"
 							},
 							"objectTemp": {
 								"description": "Temperature of the object",
@@ -305,9 +305,9 @@ var schemas = `{
 					"description": "Temperature of the asset in Fahrenheit.",								
 					"type": "number"
 				},
-				"humidity": {
-					"description": "Humidity of the asset.",
-					"type": "number"
+				"hora": {
+					"description": "Datetime of the record.",
+					"type": "string"
 				},
 				"objectTemp": {
 					"description": "Temperature of the object",
@@ -348,9 +348,9 @@ var schemas = `{
 					"description": "Temperature of the asset in Fahrenheit.",								
 					"type": "number"
 				},
-				"humidity": {
-					"description": "Humidity of the asset.",
-					"type": "number"
+				"hora": {
+					"description": "Datetime of the record.",
+					"type": "string"
 				},
 				"objectTemp": {
 					"description": "Temperature of the object",
